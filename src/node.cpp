@@ -47,7 +47,7 @@ void node::run() {
 }
 
 void node::run_async_tun(size_t number_of_tun_threads) {
-
+	std::cout << "run_async_tun" << std::endl;
 	cBufferManager bufferManager(number_of_tun_threads, 1500 * 20); // for possible weld data, 1 buffer for 1 thread
 	std::vector<std::thread> thread_vector;
 	
@@ -70,6 +70,7 @@ void node::run_async_tun(size_t number_of_tun_threads) {
 }
 
 void node::run_multithread_sync(size_t number_of_tun_threads) {
+	std::cout << "run_multithread_sync" << std::endl;
 	std::vector<std::thread> thread_vector;
 	for (size_t i = 0; i < number_of_tun_threads; i++) {
 		thread_vector.emplace_back([this]{
