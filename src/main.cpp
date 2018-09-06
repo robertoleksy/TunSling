@@ -22,6 +22,7 @@ int main(int argc, char *argv[])
 			("tunMtu", po::value<int>()->required(), "MTU size to set on our Tun (typial 9000, 8972, 1500, 1472) (required)")
 			("tunAddr", po::value<std::string>()->default_value("fd44"), "First two bytes to tun addres in hex (default: fd44)")
 			("tunMultiThread", "Multi threads for tun (if it is set then option 'threads' is for tun not for crypto and send UDP)")
+			("tunMultiThreadSync", "Multi threads for tun (if it is set then option 'threads' is for tun, crypto and send UDP)")
 		;
 
 		po::variables_map vm;
@@ -36,10 +37,12 @@ int main(int argc, char *argv[])
 
 		cNode_factory factory;
 		auto my_node = factory.create_node( vm );
-		if( !vm.count("tunMultiThread") )
-			my_node->run();
-		else
+		if ( vm.count("tunMultiThreadSync") )
+			my_node->run_multithread_sync( vm["threads"].as<int>() );
+		else if( vm.count("tunMultiThread") )
 			my_node->run_async_tun( vm["threads"].as<int>() );
+		else
+			my_node->run();
 	} catch (std::exception &e) {
 		std::cout << e.what() << "\n";
 	} catch ( ... ) {
