@@ -99,7 +99,7 @@ void node::run_multithread_sync(size_t number_of_tun_threads) {
 }
 
 void node::run_multiqueue_sync(size_t number_of_tun_threads) {
-	std::cout << "run_multithread_sync" << std::endl;
+	std::cout << "run_multiqueue_sync" << std::endl;
 	std::vector<std::thread> thread_vector;
 	for (size_t i = 0; i < number_of_tun_threads; i++) {
 		thread_vector.emplace_back([this]{

@@ -27,6 +27,7 @@ std::unique_ptr<node> cNode_factory::create_node( const boost::program_options::
 		if( th <= 0 )
 			throw std::invalid_argument( "Wrong threads number" );
 		ret->m_tun = std::make_unique<linuxTunMultiqueue>(th);
+		ret->m_tun->set_ip(boost::asio::ip::address::from_string(tunAddr), vm["tunMtu"].as<int>()); // MTU
 	} else if( vm.count("tunMultiThread") ) {
 		std::cout << "creating async tun\n";
 		// Create async tun
