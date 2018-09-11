@@ -18,6 +18,7 @@ class linuxTun final : public iTun, public iTunAsync {
     private:
         const int m_tun_fd; ///< the unix file descriptor. -1 is closed (this should not happen in correct object)
         std::unique_ptr<TStreamDescriptor> m_tun_stream;
+        ifreq  m_ifr; // the if request
 };
 
 #include "linuxtun-impl.h"
