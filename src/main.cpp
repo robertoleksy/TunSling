@@ -23,6 +23,7 @@ int main(int argc, char *argv[])
 			("tunAddr", po::value<std::string>()->default_value("fd44"), "First two bytes to tun addres in hex (default: fd44)")
 			("tunMultiThread", "Multi threads for tun (if it is set then option 'threads' is for tun not for crypto and send UDP)")
 			("tunMultiThreadSync", "Multi threads for tun (if it is set then option 'threads' is for tun, crypto and send UDP)")
+			("tunMultiQueueSync", "Tun mutli queue (if it is set then option 'threads' is for tun, crypto and send UDP)")
 		;
 
 		po::variables_map vm;
@@ -37,6 +38,8 @@ int main(int argc, char *argv[])
 
 		cNode_factory factory;
 		auto my_node = factory.create_node( vm );
+		if ( vm.count("tunMultiQueueSync") )
+			my_node->run_multiqueue_sync( vm["threads"].as<int>() );
 		if ( vm.count("tunMultiThreadSync") )
 			my_node->run_multithread_sync( vm["threads"].as<int>() );
 		else if( vm.count("tunMultiThread") )

@@ -17,7 +17,7 @@ class node final {
         void run(); ///< sync tun
         void run_async_tun(size_t number_of_tun_threads); ///< multiple tun threads
         void run_multithread_sync(size_t number_of_tun_threads);
-        void run_multi_queue_sync(size_t number_of_tun_threads);
+        void run_multiqueue_sync(size_t number_of_tun_threads);
         node(node &&) = default;
     private:
         boost::asio::ip::address m_dst_addr;
