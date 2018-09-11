@@ -39,7 +39,12 @@ void linuxTunMultiqueue::set_ip(const boost::asio::ip::address & addr, uint32_t 
 }
 
 size_t linuxTunMultiqueue::read_from_tun(unsigned char * data, size_t data_size) {
+    size_t stream_index = m_read_stream_number.fetch_add(1) % m_streams_vector.size();
+    boost::system::error_code ec;
+    return m_streams_vector.at(stream_index).read_some(boost::asio::buffer(data, data_size), ec);
 }
 
 size_t linuxTunMultiqueue::send_to_tun(const unsigned char * data, size_t data_size) {
+    throw std::runtime_error("not implemented");
+    return 0;
 }
