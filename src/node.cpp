@@ -98,6 +98,10 @@ void node::run_multithread_sync(size_t number_of_tun_threads) {
 		thread.join();
 }
 
+void node::run_multiqueue_sync(size_t number_of_tun_threads) {
+	
+}
+
 void node::async_read_from_tun_handler(size_t tun_read_size, cBuffer & buffer) {
 	size_t encypted_message_size =
 		m_crypto->encrypt(
