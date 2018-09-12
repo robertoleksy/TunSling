@@ -9,6 +9,7 @@
 #include "cSendmmsg_udp.h"
 #include "empty_udp.h"
 #include <thread>
+#include "linuxTunMultiqueue.h"
 
 std::unique_ptr<node> cNode_factory::create_node( const boost::program_options::variables_map & vm ) {
     std::unique_ptr<node> ret = std::make_unique<node>();
@@ -21,7 +22,13 @@ std::unique_ptr<node> cNode_factory::create_node( const boost::program_options::
 	auto stream_descriptor = std::make_unique<boost::asio::posix::stream_descriptor>(*(ret->m_io_service));
 	std::string tunAddr = vm["tunAddr"].as<std::string>() + ":1111:2222:3333:4444:5555:6666:7777";
 	
-	if( vm.count("tunMultiThread") ) {
+	if( vm.count("tunMultiQueueSync") ) {
+		int th = vm["threads"].as<int>();
+		if( th <= 0 )
+			throw std::invalid_argument( "Wrong threads number" );
+		ret->m_tun = std::make_unique<linuxTunMultiqueue>(th);
+		ret->m_tun->set_ip(boost::asio::ip::address::from_string(tunAddr), vm["tunMtu"].as<int>()); // MTU
+	} else if( vm.count("tunMultiThread") ) {
 		std::cout << "creating async tun\n";
 		// Create async tun
 		ret->m_tun_async = std::make_unique<linuxTun<>>(std::move(stream_descriptor));
@@ -67,13 +74,14 @@ std::unique_ptr<node> cNode_factory::create_node( const boost::program_options::
 		throw std::runtime_error( "Unknown UDP version" );
 
 	//Create thread pool
-	int threads = vm["threads"].as<int>();
-	if( threads == 0 ) {
-		
-	} else if( threads > 0 ) {
-		ret->m_thread_pool = std::make_unique<ThreadPool>(threads);
-	} else
-		throw std::runtime_error( "Wrong threads number" );
-	
+	if ( !vm.count("tunMultiQueueSync") ) {
+		int threads = vm["threads"].as<int>();
+		if( threads == 0 ) {
+			
+		} else if( threads > 0 ) {
+			ret->m_thread_pool = std::make_unique<ThreadPool>(threads);
+		} else
+			throw std::runtime_error( "Wrong threads number" );
+	}
 	return ret;
 }
