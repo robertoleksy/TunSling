@@ -36,7 +36,6 @@ void linuxTunMultiqueue::set_ip(const boost::asio::ip::address & addr, uint32_t 
 
 size_t linuxTunMultiqueue::read_from_tun(unsigned char * data, size_t data_size) {
     static thread_local int fd = m_fd_vector.at(m_fd_index.fetch_add(1));
-//    std::cout << "read in fd " << fd << std::endl;
     ssize_t ret = read(fd, data, data_size);
     if (ret <= 0) return 0;
     return ret;
