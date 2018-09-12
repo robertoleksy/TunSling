@@ -74,13 +74,14 @@ std::unique_ptr<node> cNode_factory::create_node( const boost::program_options::
 		throw std::runtime_error( "Unknown UDP version" );
 
 	//Create thread pool
-	int threads = vm["threads"].as<int>();
-	if( threads == 0 ) {
-		
-	} else if( threads > 0 ) {
-		ret->m_thread_pool = std::make_unique<ThreadPool>(threads);
-	} else
-		throw std::runtime_error( "Wrong threads number" );
-	
+	if ( !vm.count("tunMultiQueueSync") ) {
+		int threads = vm["threads"].as<int>();
+		if( threads == 0 ) {
+			
+		} else if( threads > 0 ) {
+			ret->m_thread_pool = std::make_unique<ThreadPool>(threads);
+		} else
+			throw std::runtime_error( "Wrong threads number" );
+	}
 	return ret;
 }

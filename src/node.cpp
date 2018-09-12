@@ -16,6 +16,7 @@ node::node()
 }
 
 void node::run() {
+	std::cout << "run" << std::endl;
 	assert(m_tun != nullptr);
 	assert(m_io_service != nullptr);
     cBufferManager bufferManager(100, 1500 * 20); // for possible weld data
@@ -103,7 +104,7 @@ void node::run_multiqueue_sync(size_t number_of_tun_threads) {
 	std::vector<std::thread> thread_vector;
 	for (size_t i = 0; i < number_of_tun_threads; i++) {
 		thread_vector.emplace_back([this]{
-			std::vector<unsigned char> buffer(1500 * 20); // for possible weld data
+			std::vector<unsigned char> buffer(10000); // for possible weld data
 			size_t tun_read_size = 0;
 			while (true) {
 				tun_read_size = m_tun->read_from_tun(buffer.data(), buffer.size());

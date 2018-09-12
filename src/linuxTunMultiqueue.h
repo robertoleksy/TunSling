@@ -3,6 +3,8 @@
 
 #include "iTun.h"
 #include "linuxtun.h"
+#include <map>
+#include <thread>
 
 class linuxTunMultiqueue : public iTun {
 	public:
@@ -17,9 +19,9 @@ class linuxTunMultiqueue : public iTun {
 		size_t send_to_tun(const unsigned char * data, size_t data_size) override;
 	private:
 		boost::asio::io_service m_io_service;
-		std::vector<boost::asio::posix::stream_descriptor> m_streams_vector;
+		std::vector<int> m_fd_vector;
 		ifreq  m_ifr;
-		std::atomic<size_t> m_read_stream_number;
+		std::atomic<size_t> m_fd_index;
 };
 
 #endif // LINUXTUNMULTIQUEUE_H
