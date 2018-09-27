@@ -40,6 +40,7 @@ int main(int argc, char *argv[])
 		cNode_factory factory;
 		auto my_node = factory.create_node( vm );
 		if (vm.count("tunWriteSync")) {
+			if (vm["UDP"].as<std::string>() != "Asio") throw std::invalid_argument("for --tunWriteSync UDP argument must be set to Asio");
 			my_node->run_sync_receive();
 		} else {
 			if ( vm.count("tunMultiQueueSync") )
