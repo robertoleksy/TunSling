@@ -7,6 +7,9 @@ cAsio_udp::cAsio_udp(boost::asio::ip::udp::socket && sock)
 }
 
 size_t cAsio_udp::send(const unsigned char * data, size_t data_size, const boost::asio::ip::address & adr) {
+	if (!m_sock.is_open()) {
+		m_sock.open(boost::asio::ip::udp::v4());
+	}
     boost::asio::ip::udp::endpoint receiver_endpoint(adr, m_port);
     return m_sock.send_to(boost::asio::buffer(data, data_size), receiver_endpoint);
 }

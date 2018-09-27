@@ -134,7 +134,7 @@ void node::run_sync_receive() {
 					buffer.data(), udp_receive_size,
 					m_crypto_key.data(), m_crypto_key.size(),
 					buffer.data(), buffer.size());
-		size_t tun_write_size = m_tun->send_to_tun(buffer.data(), buffer.size());
+		size_t tun_write_size = m_tun->send_to_tun(buffer.data(), decrypted_size);
 	}
 }
 

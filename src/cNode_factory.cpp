@@ -63,7 +63,7 @@ std::unique_ptr<node> cNode_factory::create_node( const boost::program_options::
 	std::string strUdp = vm["UDP"].as<std::string>();
 	if( strUdp == "Asio" ) {
 		boost::asio::ip::udp::socket socket(*(ret->m_io_service));
-		socket.open(boost::asio::ip::udp::v4());
+		//socket.open(boost::asio::ip::udp::v4());
 		ret->m_udp = std::make_unique<cAsio_udp>(std::move(socket));
 	} else if( strUdp == "Sendmmsg" ) {
 		int sockfd = socket(AF_INET, SOCK_DGRAM, 0);
