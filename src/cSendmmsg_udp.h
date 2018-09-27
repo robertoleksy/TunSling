@@ -24,7 +24,7 @@ public:
 	virtual ~cSendmmsg_udp();
 
 	virtual size_t send(const unsigned char * data, size_t data_size, const boost::asio::ip::address & adr);
-	virtual size_t recv(unsigned char * data, size_t data_size, const boost::asio::ip::address & adr, boost::asio::ip::address & adr_out);
+	virtual size_t recv(unsigned char * data, size_t data_size, boost::asio::ip::address & adr_out);
 private:
 	int m_socket;
     constexpr static unsigned int m_q_max_len = 10;

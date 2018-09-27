@@ -13,7 +13,7 @@ class cAsio_udp : public iUdp
         virtual ~cAsio_udp() = default;
 
         virtual size_t send(const unsigned char * data, size_t data_size, const boost::asio::ip::address & adr);
-        virtual size_t recv(unsigned char * data, size_t data_size, const boost::asio::ip::address & adr, boost::asio::ip::address & adr_out);
+		virtual size_t recv(unsigned char * data, size_t data_size, boost::asio::ip::address & adr_out);
     private:
         boost::asio::ip::udp::socket m_sock;
         const unsigned short m_port = 9876;

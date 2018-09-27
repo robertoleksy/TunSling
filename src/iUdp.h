@@ -13,11 +13,10 @@ class iUdp {
 		 * @brief recv
 		 * @param data
 		 * @param data_size
-		 * @param adr listen ip address
 		 * @param adr_out sender ip address
 		 * @return numbet of readed bytes
 		 */
-		virtual size_t recv(unsigned char * data, size_t data_size, const boost::asio::ip::address & adr, boost::asio::ip::address & adr_out) = 0;
+		virtual size_t recv(unsigned char * data, size_t data_size, boost::asio::ip::address & adr_out) = 0;
 };
 
 #endif // IUDP_H

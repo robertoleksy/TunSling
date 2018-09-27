@@ -24,6 +24,7 @@ int main(int argc, char *argv[])
 			("tunMultiThread", "Multi threads for tun (if it is set then option 'threads' is for tun not for crypto and send UDP)")
 			("tunMultiThreadSync", "Multi threads for tun (if it is set then option 'threads' is for tun, crypto and send UDP)")
 			("tunMultiQueueSync", "Tun mutli queue (if it is set then option 'threads' is for tun, crypto and send UDP)")
+			("tunWriteSync", "Single thread udp receive loop")
 		;
 
 		po::variables_map vm;
@@ -38,14 +39,18 @@ int main(int argc, char *argv[])
 
 		cNode_factory factory;
 		auto my_node = factory.create_node( vm );
-		if ( vm.count("tunMultiQueueSync") )
-			my_node->run_multiqueue_sync( vm["threads"].as<int>() );
-		if ( vm.count("tunMultiThreadSync") )
-			my_node->run_multithread_sync( vm["threads"].as<int>() );
-		else if( vm.count("tunMultiThread") )
-			my_node->run_async_tun( vm["threads"].as<int>() );
-		else
-			my_node->run();
+		if (vm.count("tunWriteSync")) {
+			my_node->run_sync_receive();
+		} else {
+			if ( vm.count("tunMultiQueueSync") )
+				my_node->run_multiqueue_sync( vm["threads"].as<int>() );
+			if ( vm.count("tunMultiThreadSync") )
+				my_node->run_multithread_sync( vm["threads"].as<int>() );
+			else if( vm.count("tunMultiThread") )
+				my_node->run_async_tun( vm["threads"].as<int>() );
+			else
+				my_node->run();
+		}
 	} catch (std::exception &e) {
 		std::cout << e.what() << "\n";
 	} catch ( ... ) {

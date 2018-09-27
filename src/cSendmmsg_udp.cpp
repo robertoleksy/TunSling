@@ -47,8 +47,10 @@ size_t cSendmmsg_udp::send(const unsigned char * data, size_t data_size, const b
 	return 0;
 }
 
-size_t cSendmmsg_udp::recv(unsigned char * data, size_t data_size, const boost::asio::ip::address & adr, boost::asio::ip::address & adr_out) {
-	struct sockaddr_in remote_addr, my_addr;
+size_t cSendmmsg_udp::recv(unsigned char * data, size_t data_size, boost::asio::ip::address & adr_out) {
+	throw std::runtime_error("Not implemented");
+	return 0;
+/*	struct sockaddr_in remote_addr, my_addr;
 	socklen_t addrlen = sizeof(my_addr);
 
 	my_addr.sin_family = AF_INET; // host byte order
@@ -62,5 +64,5 @@ size_t cSendmmsg_udp::recv(unsigned char * data, size_t data_size, const boost::
 	adr_out = boost::asio::ip::address_v4(ntohl(remote_addr.sin_addr.s_addr));
 
 	if (readed_bytes == -1) return 0;
-	return readed_bytes;
+	return readed_bytes;*/
 }

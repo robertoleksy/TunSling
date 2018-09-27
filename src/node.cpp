@@ -128,9 +128,8 @@ void node::run_sync_receive() {
 	std::cout << "run_sync_receive" << std::endl;
 	std::array<unsigned char, 65000> buffer;
 	boost::asio::ip::address remote_address;
-	boost::asio::ip::address local_address = boost::asio::ip::address_v4::any();
 	while (true) {
-		size_t udp_receive_size = m_udp->recv(buffer.data(), buffer.size(), local_address, remote_address);
+		size_t udp_receive_size = m_udp->recv(buffer.data(), buffer.size(), remote_address);
 		size_t decrypted_size = m_crypto->decrypt(
 					buffer.data(), udp_receive_size,
 					m_crypto_key.data(), m_crypto_key.size(),
