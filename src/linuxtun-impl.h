@@ -6,6 +6,7 @@
 #include <linux/if_tun.h>
 #include <iostream>
 #include <boost/asio/ip/address_v6.hpp>
+#include <boost/asio/io_service.hpp>
 
 template <class TStreamDescriptor>
 linuxTun<TStreamDescriptor>::linuxTun(std::unique_ptr<TStreamDescriptor> && stream)
